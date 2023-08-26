@@ -170,22 +170,6 @@ namespace Essentials.EditorSceneLoaderMenu
                 previousView.Children.Add(sceneView);
             }
 
-            // int index = 0;
-            // foreach (var item in _rootMenuView.Children)
-            // {
-            //     Debug.Log($"{index} {item.Path}");
-            //     index++;
-            //     foreach (var item2 in item.Children)
-            //     {
-            //         Debug.Log($"{index} {item2.Path}");
-            //         index++;
-            //         foreach (var item3 in item2.Children)
-            //         {
-            //             Debug.Log($"{index} {item3.Path}");
-            //             index++;
-            //         }
-            //     }
-            // }
         }
 
     }
