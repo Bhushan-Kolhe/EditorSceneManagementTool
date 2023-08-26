@@ -1,6 +1,6 @@
 {
   "name": "com.games.editor-scene-management-tool",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "displayName": "Editor Scene Management Tool",
   "description": "Allows users to load, unload and remove scenes easily.",
   "unity": "2022.3",

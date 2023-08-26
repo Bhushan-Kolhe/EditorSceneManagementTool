@@ -11,11 +11,11 @@ namespace Essentials.EditorCircularMenu
     public abstract class EditorCircularMenuBase
     {
         protected abstract KeyCode ActivationKey { get; }
+        protected abstract int Radius { get; }
 
         private SceneView _activeSceneView;
         private int _activeSceneViewInstanceID;
 
-        private int _radius = 150;
         private VisualElement _menuRootElement;
         private VisualElement _sceneRootElement;
         private int _currentSection = 0;
@@ -26,6 +26,9 @@ namespace Essentials.EditorCircularMenu
         protected Vector2 _mousePositionWhenMenuOpened;
         private Vector2 _currentMousePosition;
         private float _currentMouseAngle;
+
+        private Vector2 _mouseAngleIndicatorCenterPosition;
+        private float _mouseAngleIndicatorRadius;
 
         private readonly Color AnnulusColor = new Color(0.02f, 0.02f, 0.02f, 0.8f);
         private readonly Color MouseAngleIndicatorBackgroundColor = new Color(0.01f, 0.01f, 0.01f, 1.0f);
@@ -75,8 +78,8 @@ namespace Essentials.EditorCircularMenu
             {
                 style = {
                     position = Position.Absolute,
-                    width = _radius,
-                    height = _radius,
+                    width = Radius,
+                    height = Radius,
                     display = DisplayStyle.Flex,
                     marginBottom = 0.0f,
                     marginTop = 0.0f,
@@ -91,6 +94,9 @@ namespace Essentials.EditorCircularMenu
                     justifyContent = Justify.Center,
                 }
             };
+
+            _mouseAngleIndicatorCenterPosition = new Vector2(Radius * 0.5f, Radius * 0.5f);
+            _mouseAngleIndicatorRadius = Radius * 0.1f;
 
             // Draw the center mouse angle indicator.
             _menuRootElement.generateVisualContent -= DrawMouseAngleIndicator;
@@ -115,7 +121,7 @@ namespace Essentials.EditorCircularMenu
             _menuRootElement.SetEnabled(true);
             _menuRootElement.style.display = DisplayStyle.Flex;
             _isMenuVisible = true;
-            _menuRootElement.transform.position = position - new Vector2(_radius * 0.5f, _radius * 0.5f);
+            _menuRootElement.transform.position = position - new Vector2(Radius * 0.5f, Radius * 0.5f);
             RebuildMenu();
             _currentSection = 0;
             List<EditorCircularMenuButton> buttons = _menuRootElement.Children().Where(child => child is EditorCircularMenuButton).ToList().Select(e => e as EditorCircularMenuButton).ToList();
@@ -142,7 +148,7 @@ namespace Essentials.EditorCircularMenu
                 {
                     style =
                     {
-                        marginBottom = _radius * 0.5f + 5.0f,
+                        marginBottom = Radius * 0.5f + 5.0f,
                         fontSize = 10,
                         unityTextAlign = TextAnchor.MiddleCenter,
                         color = Color.white,
@@ -180,7 +186,7 @@ namespace Essentials.EditorCircularMenu
             foreach (var item in _menuRootElement.Children().Where(c => c is EditorCircularMenuButton))
             {
                 item.transform.position = Vector3.zero;
-                var targetPosition = Vector2.zero + GetCircleOffset(_radius, i, _menuRootElement.childCount - 1);
+                var targetPosition = Vector2.zero + GetCircleOffset(Radius, i, _menuRootElement.childCount - 1);
                 item.experimental.animation.Position(targetPosition, 100);
                 i++;
             }
@@ -275,8 +281,7 @@ namespace Essentials.EditorCircularMenu
 
         private void DrawMouseAngleIndicator(MeshGenerationContext context)
         {
-            var position = new Vector2(_radius * 0.5f, _radius * 0.5f);
-            var radius = _radius * 0.1f;
+
             const float indicatorSizeDegrees = 60.0f;
 
             var painter = context.painter2D;
@@ -286,14 +291,14 @@ namespace Essentials.EditorCircularMenu
             painter.lineWidth = 8.0f;
             painter.strokeColor = AnnulusColor;
             painter.BeginPath();
-            painter.Arc(new Vector2(position.x, position.y), radius, 0.0f, 360.0f);
+            painter.Arc(new Vector2(_mouseAngleIndicatorCenterPosition.x, _mouseAngleIndicatorCenterPosition.y), _mouseAngleIndicatorRadius, 0.0f, 360.0f);
             painter.Stroke();
 
             // Draw the mouse angle indicator background.
             painter.lineWidth = 8.0f;
             painter.strokeColor = MouseAngleIndicatorBackgroundColor;
             painter.BeginPath();
-            painter.Arc(new Vector2(position.x, position.y), radius, _currentMouseAngle - indicatorSizeDegrees * 0.5f,
+            painter.Arc(new Vector2(_mouseAngleIndicatorCenterPosition.x, _mouseAngleIndicatorCenterPosition.y), _mouseAngleIndicatorRadius, _currentMouseAngle - indicatorSizeDegrees * 0.5f,
                 _currentMouseAngle + indicatorSizeDegrees * 0.5f);
             painter.Stroke();
 
@@ -301,7 +306,7 @@ namespace Essentials.EditorCircularMenu
             painter.lineWidth = 4.0f;
             painter.strokeColor = MouseAngleIndicatorForegroundColor;
             painter.BeginPath();
-            painter.Arc(new Vector2(position.x, position.y), radius, _currentMouseAngle - indicatorSizeDegrees * 0.5f,
+            painter.Arc(new Vector2(_mouseAngleIndicatorCenterPosition.x, _mouseAngleIndicatorCenterPosition.y), _mouseAngleIndicatorRadius, _currentMouseAngle - indicatorSizeDegrees * 0.5f,
                 _currentMouseAngle + indicatorSizeDegrees * 0.5f);
             painter.Stroke();
         }

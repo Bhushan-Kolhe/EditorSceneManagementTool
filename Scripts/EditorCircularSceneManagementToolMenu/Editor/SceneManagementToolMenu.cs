@@ -15,6 +15,15 @@ namespace Essentials.EditorSceneLoaderMenu
     public class SceneManagementToolMenu : EditorCircularMenuBase
     {
         protected override KeyCode ActivationKey => KeyCode.S;
+        protected override int Radius
+        {
+            get
+            {
+                if (_activeMenuView is not null && (_activeMenuView.Path == "Load" || _activeMenuView.Path == "Close" || _activeMenuView.Path == "Remove"))
+                    return 150;
+                return 100;
+            }
+        }
         private static SceneManagementToolMenu _instance;
 
         private class CustomAssetPostProcessor : AssetPostprocessor
