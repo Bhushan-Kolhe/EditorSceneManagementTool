@@ -1,0 +1,16 @@
+{
+    "name": "Essentials.EditorSceneManagementToolMenu",
+    "rootNamespace": "Essentials.EditorSceneManagementToolMenu",
+    "references": [
+        "GUID:bbe95cbaa5083f34eaa1fa59a169fdfa"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

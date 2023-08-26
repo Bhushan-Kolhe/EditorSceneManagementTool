@@ -1,0 +1,14 @@
+{
+  "name": "com.games.editor-scene-management-tool",
+  "version": "1.0.0",
+  "displayName": "Editor Scene Management Tool",
+  "description": "Allows users to load, unload and remove scenes easily.",
+  "unity": "2022.3",
+  "keywords": [
+    "Tools"
+  ],
+  "author": {
+    "name": "Bhushan Kolhe"
+  },
+  "type": "library"
+}
